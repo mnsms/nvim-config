@@ -1,0 +1,9 @@
+# Neovim config files
+nvim/
+
+# Deploy script
+deploy.sh
+
+# Documentation
+README.md
+.gitignore

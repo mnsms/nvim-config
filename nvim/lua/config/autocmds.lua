@@ -1,0 +1,2 @@
+-- Autocmds (lazy-loaded on VeryLazy)
+-- Add custom autocmds here with vim.api.nvim_create_autocmd
