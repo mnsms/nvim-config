@@ -28,10 +28,19 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Detect platform
 local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
-local is_wsl = not is_windows and vim.fn.readfile("/proc/version")[1]:find("WSL") ~= nil
-local is_kylin = not is_windows and not is_wsl
-  and vim.fn.isdirectory("/etc/kylin") == 1
-  or vim.fn.readfile("/etc/os-release", "", 1)[1]:find("Kylin") ~= nil
+local is_wsl = false
+local is_kylin = false
+
+if not is_windows then
+  local proc_version = vim.fn.readfile("/proc/version", "", 1)
+  if proc_version[1] and proc_version[1]:find("WSL") then
+    is_wsl = true
+  elseif vim.fn.isdirectory("/etc/kylin") == 1 or vim.fn.filereadable("/etc/kylin-release") == 1 then
+    is_kylin = true
+  elseif proc_version[1] and proc_version[1]:find("Kylin") then
+    is_kylin = true
+  end
+end
 
 vim.g.platform = {
   windows = is_windows,
